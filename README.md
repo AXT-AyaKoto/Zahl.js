@@ -1,13 +1,14 @@
-# Zahl.js
+# Zahlen.js
 
 様々な数をなるべく正確に扱うためのJavaScriptライブラリです。
 
 ## Usage
 
 - `script.js`を読み込んでください
-    - HTMLの場合 : `<script src="https://cdn.jsdelivr.net/gh/AXT-AyaKoto/Zahl.js/script.js"></script>`
-    - ES Moduleの場合 : `import "https://cdn.jsdelivr.net/gh/AXT-AyaKoto/Zahl.js/script.js";`
-- `globalThis.Zahl`から使用します
+    - HTMLの場合 : `<script src="https://cdn.jsdelivr.net/gh/AXT-AyaKoto/Zahlen.js/script.js"></script>`
+    - ES Moduleの場合 : `import "https://cdn.jsdelivr.net/gh/AXT-AyaKoto/Zahlen.js/script.js";`
+- `globalThis.Zahlen`から使用します
+    - 詳細は`spec.md`を参照してください
 
 ## License
 
