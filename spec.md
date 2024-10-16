@@ -29,8 +29,6 @@
     - `Zahlen.Z(n)`
         - `n` : 整数を表す`{number|Zahlen.Z}`
 - `Zahlen.Z.prototype` : `Zahlen.Z`オブジェクトのプロトタイプ
-    - `Zahlen.Z.add(n)` : `this + n`を返します
-        - `n` : 整数を表す`{Zahlen.Z}`
 
 ### `Zahlen.Q`
 
@@ -46,7 +44,7 @@
 
 ### `Zahlen.Qi`
 
-ガウス有理数を表すクラスです。
+ガウス有理数(実部と虚部がともに有理数な複素数)を表すクラスです。
 
 - `Zahlen.Qi()` : ガウス有理数を表す`Zahlen.Qi`オブジェクトを生成します
     - `Zahlen.Qi(r, i)`
