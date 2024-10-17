@@ -88,6 +88,22 @@ ECMAScriptの`Math`に似たメソッド・定数を提供するオブジェク�
         - `x` : 符号を求める数値を表す`{Zahlen.Qi}`
     - `Zahlen.Math.abs(x)` : 絶対値を`Zahlen.Q`で返します
         - `x` : 絶対値を求める数値を表す`{Zahlen.Qi}`
+- 四則演算
+    - `Zahlen.Math.add(x, y)` : 引数の和(`x + y`)を`Zahlen.Qi`で返します
+        - `x` : 和を求める数値を表す`{Zahlen.Qi}`
+        - `y` : 和を求める数値を表す`{Zahlen.Qi}`
+    - `Zahlen.Math.sub(x, y)` : 引数の差(`x - y`)を`Zahlen.Qi`で返します
+        - `x` : 差を求める数値を表す`{Zahlen.Qi}`
+        - `y` : 差を求める数値を表す`{Zahlen.Qi}`
+    - `Zahlen.Math.mul(x, y)` : 引数の積(`x * y`)を`Zahlen.Qi`で返します
+        - `x` : 積を求める数値を表す`{Zahlen.Qi}`
+        - `y` : 積を求める数値を表す`{Zahlen.Qi}`
+    - `Zahlen.Math.div(x, y)` : 引数の商(`x / y`)を`Zahlen.Qi`で返します
+        - `x` : 商を求める数値を表す`{Zahlen.Qi}`
+        - `y` : 商を求める数値を表す`{Zahlen.Qi}`
+    - `Zahlen.Math.mod(x, y)` : 引数の剰余(`x % y`)を`Zahlen.Qi`で返します
+        - `x` : 剰余を求める数値を表す`{Zahlen.Qi}`
+        - `y` : 剰余を求める数値を表す`{Zahlen.Qi}`
 - 最大・最小
     - `Zahlen.Math.max(...args)` : 引数の中で最大の値をそのまま返します
         - `args` : 最大値を求める数値を表す`{Zahlen.Qi}`
