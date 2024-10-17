@@ -60,101 +60,117 @@
 
 ECMAScriptの`Math`に似たメソッド・定数を提供するオブジェクトです。
 
-- 定数
-    - `Zahlen.Math.PI` : 円周率`π`の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.SQRT2` : 2の平方根の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.SQRT1_2` : ½の平方根(`1/√2`)の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.E` : 自然対数の底`e`の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.LN2` : 2の自然対数の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.LN10` : 10の自然対数の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.LOG2E` : `e`を底とする2の対数の"十分な近似値"を表す`Zahlen.Q`
-    - `Zahlen.Math.LOG10E` : `e`を底とする10の対数の"十分な近似値"を表す`Zahlen.Q`
-- 繰り上げ・繰り下げ・絶対値
-    - `Zahlen.Math.ceil(x)` : `x`以上の最小の整数を`Zahlen.Z`で返します
-        - `x` : 繰り上げる数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.floor(x)` : `x`以下の最大の整数を`Zahlen.Z`で返します
-        - `x` : 繰り下げる数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.round(x)` : `x`に最も近い整数を`Zahlen.Z`で返します
-        - `x` : 丸める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.trunc(x)` : `x`の整数部分を`Zahlen.Z`で返します
-        - `x` : 整数部分を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.sign(x)` : `x`の符号を`Zahlen.Z`(0, 1, -1のいずれか)で返します
-        - `x` : 符号を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.abs(x)` : 絶対値を`Zahlen.Q`で返します
-        - `x` : 絶対値を求める数値を表す`{Zahlen.Qi}`
-- 四則演算
-    - `Zahlen.Math.add(x, y)` : 引数の和(`x + y`)を`Zahlen.Qi`で返します
-        - `x` : 和を求める数値を表す`{Zahlen.Qi}`
-        - `y` : 和を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.sub(x, y)` : 引数の差(`x - y`)を`Zahlen.Qi`で返します
-        - `x` : 差を求める数値を表す`{Zahlen.Qi}`
-        - `y` : 差を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.mul(x, y)` : 引数の積(`x * y`)を`Zahlen.Qi`で返します
-        - `x` : 積を求める数値を表す`{Zahlen.Qi}`
-        - `y` : 積を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.div(x, y)` : 引数の商(`x / y`)を`Zahlen.Qi`で返します
-        - `x` : 商を求める数値を表す`{Zahlen.Qi}`
-        - `y` : 商を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.mod(x, y)` : 引数の剰余(`x % y`)を`Zahlen.Qi`で返します
-        - `x` : 剰余を求める数値を表す`{Zahlen.Qi}`
-        - `y` : 剰余を求める数値を表す`{Zahlen.Qi}`
-- 最大・最小
-    - `Zahlen.Math.max(...args)` : 引数の中で最大の値をそのまま返します
-        - `args` : 最大値を求める数値を表す`{Zahlen.Qi}`
-        - `{Zahlen.Qi}`が含まれる場合は、絶対値と符号で比較します
-    - `Zahlen.Math.min(...args)` : 引数の中で最小の値をそのまま返します
-        - `args` : 最小値を求める数値を表す`{Zahlen.Qi}`
-        - `{Zahlen.Qi}`が含まれる場合は、絶対値と符号で比較します
-- べき乗・平方根・立方根
-    - `Zahlen.Math.pow(x, y)` : `x`の`y`乗(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 底を表す`{Zahlen.Qi}`
-        - `y` : 指数を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.sqrt(x)` : `x`の平方根(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 平方根を求める数値を表す`{Zahlen.Qi}`
-        - ※`Zahlen.Math.pow(x, Zahlen.Q(1, 2))`と同じ
-    - `Zahlen.Math.cbrt(x)` : `x`の立方根(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 立方根を求める数値を表す`{Zahlen.Qi}`
-        - ※`Zahlen.Math.pow(x, Zahlen.Q(1, 3))`と同じ
-- 指数関数・対数関数
-    - `Zahlen.Math.exp(x)` : `e`の`x`乗(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 指数を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.log(x)` : `e`を底とした`x`の対数(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 対数を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.log10(x)` : `10`を底とした`x`の対数(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 対数を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.log2(x)` : `2`を底とした`x`の対数(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 対数を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.log1p(x)` : `e`を底とした`1 + x`の対数(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 対数を求める数値を表す`{Zahlen.Qi}`
-        - ※`Zahlen.Math.log(Zahlen.Q(1).add(x))`と同じ
-- 三角関数・逆三角関数
-    - `Zahlen.Math.sin(x)` : `x`の正弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 正弦を求める数値を表す`{Zahlen.Qi}` (ラジアン)
-    - `Zahlen.Math.cos(x)` : `x`の余弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 余弦を求める数値を表す`{Zahlen.Qi}` (ラジアン)
-    - `Zahlen.Math.tan(x)` : `x`の正接(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 正接を求める数値を表す`{Zahlen.Qi}` (ラジアン)
-    - `Zahlen.Math.asin(x)` : `x`の逆正弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆正弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.acos(x)` : `x`の逆余弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆余弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.atan(x)` : `x`の逆正接(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆正接を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.sinh(x)` : `x`の双曲線正弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 双曲線正弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.cosh(x)` : `x`の双曲線余弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 双曲線余弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.tanh(x)` : `x`の双曲線正接(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 双曲線正接を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.asinh(x)` : `x`の逆双曲線正弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆双曲線正弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.acosh(x)` : `x`の逆双曲線余弦(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆双曲線余弦を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.atanh(x)` : `x`の逆双曲線正接(の"十分な近似値")を`Zahlen.Qi`で返します
-        - `x` : 逆双曲線正接を求める数値を表す`{Zahlen.Qi}`
-    - `Zahlen.Math.atan2(y, x)` : x軸の正の方向と点`(0, 0)`から点`(x, y)`への線分との角度(の"十分な近似値", 単位はラジアン)を`Zahlen.Qi`で返します
-        - `y` : y座標を表す`{Zahlen.Qi}`
-        - `x` : x座標を表す`{Zahlen.Qi}`
-- 乱数
-    - `Zahlen.Math.random()` : 0以上1未満の範囲の乱数を`Zahlen.Q`で返します
-        - ※`Zahlen.Q(Math.random())`と同じ
+#### 定数
+
+| プロパティ | 型 | 説明 | 正確性 |
+|:-----------|:--:|:----:|:------:|
+| `Zahlen.Math.PI` | `Zahlen.Q` | 円周率`π` | "十分な近似値" |
+| `Zahlen.Math.SQRT2` | `Zahlen.Q` | 2の平方根 | "十分な近似値" |
+| `Zahlen.Math.SQRT1_2` | `Zahlen.Q` | ½の平方根(`1/√2`) | "十分な近似値" |
+| `Zahlen.Math.E` | `Zahlen.Q` | ネイピア数`e` | "十分な近似値" |
+| `Zahlen.Math.LN2` | `Zahlen.Q` | 2の自然対数 | "十分な近似値" |
+| `Zahlen.Math.LN10` | `Zahlen.Q` | 10の自然対数 | "十分な近似値" |
+| `Zahlen.Math.LOG2E` | `Zahlen.Q` | `e`を底とする2の対数 | "十分な近似値" |
+| `Zahlen.Math.LOG10E` | `Zahlen.Q` | `e`を底とする10の対数 | "十分な近似値" |
+
+#### 繰り上げ・繰り下げ・絶対値
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.ceil(x)` | `Zahlen.Qi` | `Zahlen.Z` | `x`以上の最小の整数 | 正確 | ※1 |
+| `Zahlen.Math.floor(x)` | `Zahlen.Qi` | `Zahlen.Z` | `x`以下の最大の整数 | 正確 | ※1 |
+| `Zahlen.Math.round(x)` | `Zahlen.Qi` | `Zahlen.Z` | `x`に最も近い整数 | 正確 | ※1 |
+| `Zahlen.Math.trunc(x)` | `Zahlen.Qi` | `Zahlen.Z` | `x`の整数部分 | 正確 | ※1 |
+| `Zahlen.Math.sign(x)` | `Zahlen.Qi` | `Zahlen.Z` | `x`の符号 | 正確 | ※2 |
+| `Zahlen.Math.abs(x)` | `Zahlen.Qi` | `Zahlen.Q` | `x`の絶対値 | 正確 | ※1 |
+
+> - ※1
+>   - `Qi`の場合は実部と虚部をそれぞれ処理します
+> - ※2
+>   - `x`が正の数なら`1`、`0`なら`0`、負の数なら`-1`を返します
+>   - `x`が`Zahlen.Qi`の場合は、実部と虚部をそれぞれ比較して、`(-1|0|1)+(-1|0|1)i`を返します
+
+#### 四則演算
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.add(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x + y`を返します | 正確 |  |
+| `Zahlen.Math.sub(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x - y`を返します | 正確 |  |
+| `Zahlen.Math.mul(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x * y`を返します | 正確 |  |
+| `Zahlen.Math.div(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x / y`を返します | 正確 | ※1 |
+| `Zahlen.Math.mod(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x % y`を返します | 正確 | ※2 |
+
+> - ※1
+>   - `y`が`0`の場合はエラーを返します
+>   - 必ず整数とは限りません。整数部分のみを取り出したい場合は`Zahlen.Math.trunc(Zahlen.Math.div(x, y))`
+> - ※2
+>   - `y`が`0`の場合はエラーを返します
+>   - これは`Zahlen.Math.sub(Zahlen.Math.div(x, y), Zahlen.Math.trunc(Zahlen.Math.div(x, y)))`と等価になります
+
+#### 最大・最小
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.max(...args)` | `Zahlen.Qi` | `Zahlen.Qi` | 引数の中で最大の値を返します | 正確 | ※1 |
+| `Zahlen.Math.min(...args)` | `Zahlen.Qi` | `Zahlen.Qi` | 引数の中で最小の値を返します | 正確 | ※1 |
+
+> - ※1
+>   - 大小は絶対値と符号で比較します
+
+#### べき乗・平方根・立方根
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.pow(x, y)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の`y`乗を返します | "十分な近似値" |  |
+| `Zahlen.Math.sqrt(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の平方根を返します | "十分な近似値" | ※1 |
+| `Zahlen.Math.cbrt(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の立方根を返します | "十分な近似値" | ※2 |
+
+> - ※1
+>   - `Zahlen.Math.pow(x, new Zahlen.Q(1, 2))`と等価になります
+> - ※2
+>   - `Zahlen.Math.pow(x, new Zahlen.Q(1, 3))`と等価になります
+
+#### 指数関数・対数関数
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.exp(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `e`の`x`乗を返します | "十分な近似値" |  |
+| `Zahlen.Math.log(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `e`を底とした`x`の対数を返します | "十分な近似値" |  |
+| `Zahlen.Math.log10(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `10`を底とした`x`の対数を返します | "十分な近似値" |  |
+| `Zahlen.Math.log2(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `2`を底とした`x`の対数を返します | "十分な近似値" |  |
+| `Zahlen.Math.log1p(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `e`を底とした`1 + x`の対数を返します | "十分な近似値" | ※1 |
+
+> - ※1
+>   - `Zahlen.Math.log(new Zahlen.Q(1).add(x))`と等価になります
+
+#### 三角関数・逆三角関数
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.sin(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の正弦を返します | "十分な近似値" | ※1 |
+| `Zahlen.Math.cos(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の余弦を返します | "十分な近似値" | ※1 |
+| `Zahlen.Math.tan(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の正接を返します | "十分な近似値" | ※1 |
+| `Zahlen.Math.asin(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆正弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.acos(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆余弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.atan(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆正接を返します | "十分な近似値" |  |
+| `Zahlen.Math.sinh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の双曲線正弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.cosh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の双曲線余弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.tanh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の双曲線正接を返します | "十分な近似値" |  |
+| `Zahlen.Math.asinh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆双曲線正弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.acosh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆双曲線余弦を返します | "十分な近似値" |  |
+| `Zahlen.Math.atanh(x)` | `Zahlen.Qi` | `Zahlen.Qi` | `x`の逆双曲線正接を返します | "十分な近似値" |  |
+| `Zahlen.Math.atan2(y, x)` | `Zahlen.Qi` | `Zahlen.Qi` | ※2 | "十分な近似値" |  |
+
+> - ※1
+>   - 引数はラジアンで指定します
+> - ※2
+>   - `x`軸の正の方向と点`(0, 0)`から点`(x, y)`への線分との角度(単位はラジアン)を返します
+
+#### 乱数
+
+| メソッド | 引数の型 | 戻り値の型 | 説明 | 正確性 | 備考 |
+|:---------|:--------:|:----------:|:----:|:------:|:----:|
+| `Zahlen.Math.random()` | - | `Zahlen.Q` | 0以上1未満の範囲の乱数を返します | 正確 | ※1 |
+
+> - ※1
+>   - `new Zahlen.Q(Math.random())`と等価になります
