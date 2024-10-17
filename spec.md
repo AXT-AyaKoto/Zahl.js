@@ -31,6 +31,7 @@
         - `i_top` : 虚部の分子を表す`{number|bigint}`
         - `i_bottom` : 虚部の分母を表す`{number|bigint}`
 - `Zahlen.Qi.prototype` : `Zahlen.Qi`オブジェクトのプロトタイプ
+    - `Zahlen.Qi.prototype.format()` : 整数なら`Zahlen.Z`、有理数なら`Zahlen.Q`に変換した値を返します。ガウス有理数なら値をそのまま返します。
 
 ### `Zahlen.Q`
 
@@ -43,6 +44,9 @@
     - `Zahlen.Q(top, bottom)`
         - `top` : 分子を表す`{number|bigint}`
         - `bottom` : 分母を表す`{number|bigint}`
+- `Zahlen.Q.isQ(n)` : `n`が有理数かどうかを判定します
+    - `n` : 判定する値を表す`{Zahlen.Qi}`
+    - 戻り値 : `n`が有理数の場合は`true`、そうでない場合は`false`
 - `Zahlen.Q.prototype` : `Zahlen.Q`オブジェクトのプロトタイプ
 
 ### `Zahlen.Z`
@@ -53,6 +57,9 @@
 - `Zahlen.Z()` : 整数を表す`Zahlen.Z`オブジェクトを生成します
     - `Zahlen.Z(n)`
         - `n` : 整数を表す`{Zahlen.Z|number|bigint}` (※整数でない`number`の場合は整数部分のみ取り出す形で丸められます)
+- `Zahlen.Z.isZ(n)` : `n`が整数かどうかを判定します
+    - `n` : 判定する値を表す`{Zahlen.Qi}`
+    - 戻り値 : `n`が整数の場合は`true`、そうでない場合は`false`
 - `Zahlen.Z.prototype` : `Zahlen.Z`オブジェクトのプロトタイプ
 
 ### `Zahlen.Math`
