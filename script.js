@@ -363,16 +363,6 @@ const Zahlen_Qi = class Zahlen_Qi {
      */
     constructor(r_top, r_bottom, i_top, i_bottom) {
         /**
-         * @description - もしQやZで表せるなら、それを渡す
-        */
-        if (i_top == 0) {
-            if (r_bottom == 1) {
-                return new Zahlen_Z(r_top);
-            } else {
-                return new Zahlen_Q(r_top, r_bottom);
-            }
-        }
-        /**
          * @description - 有理数の分子と分母を約分する
          */
         /** @type {bigint} - 実部の分子と分母の積 */
@@ -395,6 +385,18 @@ const Zahlen_Qi = class Zahlen_Qi {
         this.i_top = i_sign * BigInt(i_top);
         /** @type {bigint} - 虚部の分母 */
         this.i_bottom = i_sign * BigInt(i_bottom);
+    }
+    /**
+     * @description - いけるところまで継承先クラスのインスタンスに変換する
+     * @returns {Zahlen_Qi|Zahlen_Q|Zahlen_Z} - 整数ならZahlen_Z, 有理数ならZahlen_Q, それ以外ならZahlen_Qi
+     */
+    format() {
+        // 虚部が0(分子が0) かつ 実部が整数(分母が1) → 整数 → Zahlen_Z
+        if (this.i_top === 0n && this.r_bottom === 1n) return new Zahlen_Z(this.r_top);
+        // 虚部が0(分子が0) → 有理数 → Zahlen_Q
+        if (this.i_top === 0n) return new Zahlen_Q(this.r_top, this.r_bottom);
+        // それ以外 → ガウス有理数 → Zahlen_Qi
+        return this;
     }
 };
 
