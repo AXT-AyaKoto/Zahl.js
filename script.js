@@ -1,4 +1,4 @@
-// @ts-check
+// ts-check
 
 /**
  * @type {Object} - ECMAScriptのMath相当の機能を提供するクラス
@@ -58,6 +58,7 @@ const Zahlen_Math = class Zahlen_Math {
      * @returns {Zahlen_Q} - 絶対値
      */
     static abs(z) {
+
 
     }
     /**
@@ -120,21 +121,60 @@ const Zahlen_Math = class Zahlen_Math {
      * @param {Zahlen_Qi} y
      * @returns {boolean} - `x == y`
      */
-    static eq(x, y) { }
+    static eq(x, y) {
+        // インスタンスプロパティをそれぞれ比べればOK
+        return (
+            x.r_sign === y.r_sign &&
+            x.r_top === y.r_top &&
+            x.r_bottom === y.r_bottom &&
+            x.i_sign === y.i_sign &&
+            x.i_top === y.i_top &&
+            x.i_bottom === y.i_bottom
+        );
+    }
     /**
      * @description - 不等価
      * @param {Zahlen_Qi} x
      * @param {Zahlen_Qi} y
      * @returns {boolean} - `x != y`
      */
-    static ne(x, y) { }
+    static ne(x, y) {
+        /** @description - eqの否定 */
+        return !Zahlen_Math.eq(x, y);
+    }
     /**
      * @description - 小なり
      * @param {Zahlen_Qi} x
      * @param {Zahlen_Qi} y
      * @returns {boolean} - `x < y`
      */
-    static lt(x, y) { }
+    static lt(x, y) {
+        // xとyの絶対値をそれぞれ計算
+        /** @type {Zahlen_Q} - xの絶対値 */
+        const abs_x = Zahlen_Math.abs(x);
+        /** @type {Zahlen_Q} - yの絶対値 */
+        const abs_y = Zahlen_Math.abs(y);
+        // 符号が異なる場合 → 符号だけで比較
+        if (x.r_sign !== y.r_sign) return x.r_sign < y.r_sign;
+        // 符号がともに0の場合 → 0 < 0 は成り立たない
+        if (x.r_sign === 0n) return false;
+        // 符号がともに正の場合 → 絶対値を通分して比較
+        if (x.r_sign === 1n) {
+            const x_reduction = {
+                "top": abs_x.r_top * abs_y.r_bottom,
+                "bottom": abs_x.r_bottom * abs_y.r_bottom
+            }
+            const y_reduction = {
+                "top": abs_y.r_top * abs_x.r_bottom,
+                "bottom": abs_y.r_bottom * abs_x.r_bottom
+            }
+            return x_reduction.top < y_reduction.top;
+        }
+        // 符号がともに負の場合 → xのほうが絶対値が大きいならtrue
+        if (x.r_sign === -1n) {
+            return Zahlen_Math.lt(abs_x, abs_y);
+        }
+    }
     /**
      * @description - 小なりイコール
      * @param {Zahlen_Qi} x
@@ -322,6 +362,19 @@ const Zahlen_Qi = class Zahlen_Qi {
      * @param {number|bigint} i_bottom - 虚部の分母
      */
     constructor(r_top, r_bottom, i_top, i_bottom) {
+        /**
+         * @description - もしQやZで表せるなら、それを渡す
+        */
+        if (i_top == 0) {
+            if (r_bottom == 1) {
+                return new Zahlen_Z(r_top);
+            } else {
+                return new Zahlen_Q(r_top, r_bottom);
+            }
+        }
+        /**
+         * @description - 有理数の分子と分母を約分する
+         */
         /** @type {bigint} - 実部の分子と分母の積 */
         const r_product = BigInt(r_top) * BigInt(r_bottom);
         /** @type {bigint} - 虚部の分子と分母の積 */
@@ -332,12 +385,12 @@ const Zahlen_Qi = class Zahlen_Qi {
         const i_sign = i_product > 0n ? 1n : i_product < 0n ? -1n : 0n;
         /** @type {bigint} - 実部の符号 */
         this.r_sign = r_sign;
-        /** @type {bigint} - 虚部の符号 */
-        this.i_sign = i_sign;
         /** @type {bigint} - 実部の分子 */
         this.r_top = r_sign * BigInt(r_top);
         /** @type {bigint} - 実部の分母 */
         this.r_bottom = r_sign * BigInt(r_bottom);
+        /** @type {bigint} - 虚部の符号 */
+        this.i_sign = i_sign;
         /** @type {bigint} - 虚部の分子 */
         this.i_top = i_sign * BigInt(i_top);
         /** @type {bigint} - 虚部の分母 */
