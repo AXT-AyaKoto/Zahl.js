@@ -1,6 +1,125 @@
 // ts-check
 
 /**
+ * @type {Object} - ガウス有理数(Gaussian Rational)を提供するクラス
+ */
+const Zahlen_Qi = class Zahlen_Qi {
+    /**
+     * @constructor
+     * @param {number|bigint} r_top - 実部の分子
+     * @param {number|bigint} r_bottom - 実部の分母
+     * @param {number|bigint} i_top - 虚部の分子
+     * @param {number|bigint} i_bottom - 虚部の分母
+     */
+    constructor(r_top, r_bottom, i_top, i_bottom) {
+        /**
+         * @description - 有理数の分子と分母を約分する
+         */
+        /** @type {bigint} - 実部の分子と分母の積 */
+        const r_product = BigInt(r_top) * BigInt(r_bottom);
+        /** @type {bigint} - 虚部の分子と分母の積 */
+        const i_product = BigInt(i_top) * BigInt(i_bottom);
+        /** @type {bigint} - 実部の符号(正なら1n, 負なら-1n, 0なら0n) */
+        const r_sign = r_product > 0n ? 1n : r_product < 0n ? -1n : 0n;
+        /** @type {bigint} - 虚部の符号(正なら1n, 負なら-1n, 0なら0n) */
+        const i_sign = i_product > 0n ? 1n : i_product < 0n ? -1n : 0n;
+        /** @type {bigint} - 実部の符号 */
+        this.r_sign = r_sign;
+        /** @type {bigint} - 実部の分子 */
+        this.r_top = r_sign * BigInt(r_top);
+        /** @type {bigint} - 実部の分母 */
+        this.r_bottom = r_sign * BigInt(r_bottom);
+        /** @type {bigint} - 虚部の符号 */
+        this.i_sign = i_sign;
+        /** @type {bigint} - 虚部の分子 */
+        this.i_top = i_sign * BigInt(i_top);
+        /** @type {bigint} - 虚部の分母 */
+        this.i_bottom = i_sign * BigInt(i_bottom);
+    }
+    /**
+     * @description - いけるところまで継承先クラスのインスタンスに変換する
+     * @returns {Zahlen_Qi|Zahlen_Q|Zahlen_Z} - 整数ならZahlen_Z, 有理数ならZahlen_Q, それ以外ならZahlen_Qi
+     */
+    format() {
+        // 虚部が0(分子が0) かつ 実部が整数(分母が1) → 整数 → Zahlen_Z
+        if (this.i_top === 0n && this.r_bottom === 1n) return new Zahlen_Z(this.r_top);
+        // 虚部が0(分子が0) → 有理数 → Zahlen_Q
+        if (this.i_top === 0n) return new Zahlen_Q(this.r_top, this.r_bottom);
+        // それ以外 → ガウス有理数 → Zahlen_Qi
+        return this;
+    }
+    /**
+     * @description - number型に変換する
+     * @returns {number} - number型に変換した値
+     */
+    valueOf() {
+        return Number(this.r_top) / Number(this.r_bottom) + Number(this.i_top) / Number(this.i_bottom) * Math.sqrt(-1);
+    }
+    /**
+     * @description - 文字列に変換する
+     * @returns {string} - 文字列に変換した値
+     */
+    toString() {
+        return `(${this.r_sign == -1n ? "-" : ""}${this.r_top}/${this.r_bottom})${this.i_sign == -1n ? "-" : "+"}(${this.i_top}/${this.i_bottom})i`;
+    }
+};
+
+/**
+ * @type {Object} - 有理数(Rational)を提供するクラス。Zahlen.Qiのサブクラス
+ */
+const Zahlen_Q = class Zahlen_Q extends Zahlen_Qi {
+    /**
+     * @constructor
+     * @param {number|bigint} top - 分子
+     * @param {number|bigint} bottom - 分母
+     */
+    constructor(top, bottom) {
+        super(top, bottom, 0, 1);
+    }
+    /**
+     * @description - number型に変換する
+     * @returns {number} - number型に変換した値
+     */
+    valueOf() {
+        return Number(this.r_top) / Number(this.r_bottom);
+    }
+    /**
+     * @description - 文字列に変換する
+     * @returns {string} - 文字列に変換した値
+     */
+    toString() {
+        return `${this.r_sign == -1n ? "-" : ""}${this.r_top}/${this.r_bottom}`;
+    }
+};
+
+/**
+ * @type {Object} - 整数(Integer)を提供するクラス。Zahlen.Qのサブクラス
+ */
+const Zahlen_Z = class Zahlen_Z extends Zahlen_Q {
+    /**
+     * @constructor
+     * @param {number|bigint} value - 整数
+     */
+    constructor(value) {
+        super(value, 1);
+    }
+    /**
+     * @description - number型に変換する
+     * @returns {number} - number型に変換した値
+     */
+    valueOf() {
+        return Number(this.r_top);
+    }
+    /**
+     * @description - 文字列に変換する
+     * @returns {string} - 文字列に変換した値
+     */
+    toString() {
+        return `${this.r_top}`;
+    }
+};
+
+/**
  * @type {Object} - ECMAScriptのMath相当の機能を提供するクラス
  */
 const Zahlen_Math = class Zahlen_Math {
@@ -58,8 +177,9 @@ const Zahlen_Math = class Zahlen_Math {
      * @returns {Zahlen_Q} - 絶対値
      */
     static abs(z) {
-
-
+        // 高速化のために、Zahlen_Qの場合は符号だけ+にして返す
+        if (z instanceof Zahlen_Q) return new Zahlen_Q(z.r_top, z.r_bottom);
+        // それ以外(Zahlen_Qiの場合)は三平方の定理を使って計算
     }
     /**
      * @description - 絶対値の最大公約数を計算する
@@ -76,7 +196,12 @@ const Zahlen_Math = class Zahlen_Math {
         const int_a = Zahlen_Math.floor(abs_a);
         /** @type {Zahlen_Z} - bの絶対値の整数部分 */
         const int_b = Zahlen_Math.floor(abs_b);
-        /** @type {Zahlen_Z} - aの絶対値の整数部分とbの絶対値の整数部分の最大公約数 */
+        /** @description - ユークリッドの互除法 */
+        const euclidean = (x, y) => {
+            if (Zahlen_Math.eq(y, new Zahlen_Q(0))) return x;
+            return euclidean(y, Zahlen_Math.mod(x, y));
+        };
+        return euclidean(int_a, int_b);
     }
     /* ==== 四則演算 ==== */
     /**
@@ -235,7 +360,24 @@ const Zahlen_Math = class Zahlen_Math {
      * @param {Zahlen_Qi} x
      * @returns {Zahlen_Qi} - `e`の`x`乗
      */
-    static exp(x) { }
+    static exp(x) {
+        // テイラー展開を途中で切る方針で計算。`e`の`x`乗 = Σ(x^n / n!) (n=0→∞)
+        /** @type {number} n=いくつまで計算する？ */
+        const n = 10;
+        /** @type {Zahlen_Qi} - 総和を格納する変数 */
+        let sum = new Zahlen_Z(0);
+        for (let i = 0; i < n; i++) {
+            /** @type {Zahlen_Qi} - 分子 */
+            const numerator = Zahlen_Math.pow(x, new Zahlen_Q(i));
+            /** @type {Zahlen_Q} - 分母 */
+            const denominator = new Zahlen_Q(BigInt(1), BigInt(1));
+            for (let j = 1; j <= i; j++) {
+                denominator.r_top *= BigInt(j);
+                denominator.r_bottom *= BigInt(j);
+            }
+            sum = Zahlen_Math.add(sum, Zahlen_Math.div(numerator, denominator));
+        }
+    }
     /**
      * @description - 自然対数
      * @param {Zahlen_Qi} x
@@ -349,84 +491,6 @@ const Zahlen_Math = class Zahlen_Math {
         return new Zahlen_Q(Math.random());
     }
 };
-
-/**
- * @type {Object} - ガウス有理数(Gaussian Rational)を提供するクラス
- */
-const Zahlen_Qi = class Zahlen_Qi {
-    /**
-     * @constructor
-     * @param {number|bigint} r_top - 実部の分子
-     * @param {number|bigint} r_bottom - 実部の分母
-     * @param {number|bigint} i_top - 虚部の分子
-     * @param {number|bigint} i_bottom - 虚部の分母
-     */
-    constructor(r_top, r_bottom, i_top, i_bottom) {
-        /**
-         * @description - 有理数の分子と分母を約分する
-         */
-        /** @type {bigint} - 実部の分子と分母の積 */
-        const r_product = BigInt(r_top) * BigInt(r_bottom);
-        /** @type {bigint} - 虚部の分子と分母の積 */
-        const i_product = BigInt(i_top) * BigInt(i_bottom);
-        /** @type {bigint} - 実部の符号(正なら1n, 負なら-1n, 0なら0n) */
-        const r_sign = r_product > 0n ? 1n : r_product < 0n ? -1n : 0n;
-        /** @type {bigint} - 虚部の符号(正なら1n, 負なら-1n, 0なら0n) */
-        const i_sign = i_product > 0n ? 1n : i_product < 0n ? -1n : 0n;
-        /** @type {bigint} - 実部の符号 */
-        this.r_sign = r_sign;
-        /** @type {bigint} - 実部の分子 */
-        this.r_top = r_sign * BigInt(r_top);
-        /** @type {bigint} - 実部の分母 */
-        this.r_bottom = r_sign * BigInt(r_bottom);
-        /** @type {bigint} - 虚部の符号 */
-        this.i_sign = i_sign;
-        /** @type {bigint} - 虚部の分子 */
-        this.i_top = i_sign * BigInt(i_top);
-        /** @type {bigint} - 虚部の分母 */
-        this.i_bottom = i_sign * BigInt(i_bottom);
-    }
-    /**
-     * @description - いけるところまで継承先クラスのインスタンスに変換する
-     * @returns {Zahlen_Qi|Zahlen_Q|Zahlen_Z} - 整数ならZahlen_Z, 有理数ならZahlen_Q, それ以外ならZahlen_Qi
-     */
-    format() {
-        // 虚部が0(分子が0) かつ 実部が整数(分母が1) → 整数 → Zahlen_Z
-        if (this.i_top === 0n && this.r_bottom === 1n) return new Zahlen_Z(this.r_top);
-        // 虚部が0(分子が0) → 有理数 → Zahlen_Q
-        if (this.i_top === 0n) return new Zahlen_Q(this.r_top, this.r_bottom);
-        // それ以外 → ガウス有理数 → Zahlen_Qi
-        return this;
-    }
-};
-
-/**
- * @type {Object} - 有理数(Rational)を提供するクラス。Zahlen.Qiのサブクラス
- */
-const Zahlen_Q = class Zahlen_Q extends Zahlen_Qi {
-    /**
-     * @constructor
-     * @param {number|bigint} top - 分子
-     * @param {number|bigint} bottom - 分母
-     */
-    constructor(top, bottom) {
-        super(top, bottom, 0, 1);
-    }
-};
-
-/**
- * @type {Object} - 整数(Integer)を提供するクラス。Zahlen.Qのサブクラス
- */
-const Zahlen_Z = class Zahlen_Z extends Zahlen_Q {
-    /**
-     * @constructor
-     * @param {number|bigint} value - 整数
-     */
-    constructor(value) {
-        super(value, 1);
-    }
-};
-
 
 /**
  * @type {Object} - Zahlen.jsへのアクセスを提供するオブジェクト
